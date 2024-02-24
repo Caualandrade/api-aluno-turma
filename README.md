@@ -5,9 +5,9 @@ Esta Api foi desenvolvida em Java utilizando o framework Spring boot que consta 
 - Spring Boot
 - MySQL
 ## Funcionalidaes 
-### Alunos
+### Alunos (Nome,Sobrenome,CPF,Email)
 - Todo CRUD com a entidade aluno;
-### Turmas
+### Turmas (Nome,Lista de Alunos)
 - Todo CRUD com a entidade turma;
 - Adicionar aluno na turma;
 - Remover Aluno da turma;
