@@ -1,14 +1,9 @@
 package com.example.aluno_turma_api.Model;
 
-import com.example.aluno_turma_api.DTOs.turma.AtualizarTurmaAdicionandoAlunoDTO;
-import com.example.aluno_turma_api.Repository.AlunoRepository;
-import com.example.aluno_turma_api.Repository.TurmaRepository;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "turma")
@@ -28,14 +23,7 @@ public class TurmaModel {
         this.alunos.add(alunoModel);
     }
 
-    public void verificarAluno(List<AlunoModel> alunos, AlunoModel alunoModel){
-        for(AlunoModel a: alunos){
-            if(a.getId() != alunoModel.getId() && alunoModel.getAtivo()){
-                this.addAluno(alunoModel);
-            }
-        }
-    }
-
+    public void removerAluno(AlunoModel alunoModel){this.alunos.remove(alunoModel);}
 
     public Long getId() {
         return id;
