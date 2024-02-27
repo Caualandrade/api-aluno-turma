@@ -5,6 +5,7 @@ import com.example.aluno_turma_api.DTOs.aluno.AlunoDTO;
 import com.example.aluno_turma_api.DTOs.aluno.AlunoDadosCompletosDTO;
 import com.example.aluno_turma_api.Model.AlunoModel;
 import com.example.aluno_turma_api.Repository.AlunoRepository;
+import com.example.aluno_turma_api.Service.AlunoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,41 +24,39 @@ public class AlunoController {
     @Autowired
     AlunoRepository alunoRepository;
 
-    @PostMapping
-    @Transactional
-    public ResponseEntity<AlunoModel> addAluno(@RequestBody @Valid AlunoDTO alunoDTO) {
-        var alunoModel = new AlunoModel();
-        BeanUtils.copyProperties(alunoDTO, alunoModel);
-        alunoRepository.save(alunoModel);
-        return ResponseEntity.status(HttpStatus.CREATED).body(alunoModel);
-    }
+    @Autowired
+    AlunoService alunoService;
 
     @GetMapping
     public ResponseEntity<Page<AlunoDadosCompletosDTO>> obterTodosAlunos(@PageableDefault(size = 10, sort = {"nome"}) Pageable pageable) {
-        var page = alunoRepository.findAll(pageable).map(AlunoDadosCompletosDTO::new);
-        return ResponseEntity.status(HttpStatus.OK).body(page);
+        var page = alunoService.getAllAlunos(pageable);
+        return ResponseEntity.ok(page);
     }
 
     @GetMapping("/ativos")
     public ResponseEntity<Page<AlunoDadosCompletosDTO>> obterTodosAlunosAtivos(@PageableDefault(size = 10, sort = {"nome"}) Pageable pageable) {
-        var page = alunoRepository.findAllByAtivoTrue(pageable).map(AlunoDadosCompletosDTO::new);
-        return ResponseEntity.status(HttpStatus.OK).body(page);
+        var page = alunoService.getAllAlunosAtivos(pageable);
+        return ResponseEntity.ok(page);
+    }
+
+    @PostMapping
+    @Transactional
+    public ResponseEntity<AlunoDTO> addAluno(@RequestBody @Valid AlunoDTO alunoDTO) {
+       return ResponseEntity.ok(alunoService.insertAluno(alunoDTO));
+    }
+
+    @PutMapping
+    @Transactional
+    public ResponseEntity atualizarDadosAluno(@RequestBody @Valid AlunoAtualizarDTO alunoAtualizadoDTO) {
+        alunoService.updateAluno(alunoAtualizadoDTO);
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity deletarAluno(@PathVariable Long id) {
-        var alunoModel = alunoRepository.getReferenceById(id);
-        alunoModel.excluir();
+        alunoService.deleteAluno(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-    }
-
-    @PutMapping
-    @Transactional
-    public ResponseEntity atualizarDadosAluno(@RequestBody @Valid AlunoAtualizarDTO alunoAtualizadoDTO){
-        var alunoModel = alunoRepository.getReferenceById(alunoAtualizadoDTO.id());
-        alunoModel.atualizarAluno(alunoAtualizadoDTO);
-        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
 
