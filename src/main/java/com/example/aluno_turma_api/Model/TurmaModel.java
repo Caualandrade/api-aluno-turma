@@ -25,6 +25,7 @@ public class TurmaModel {
 
     public void removerAluno(AlunoModel alunoModel){this.alunos.remove(alunoModel);}
 
+
     public Long getId() {
         return id;
     }
