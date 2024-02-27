@@ -3,14 +3,8 @@ package com.example.aluno_turma_api.Controller;
 import com.example.aluno_turma_api.DTOs.turma.ManipularAlunoNaTurmaDTO;
 import com.example.aluno_turma_api.DTOs.turma.TurmaDTO;
 import com.example.aluno_turma_api.DTOs.turma.TurmaDadosCompletosDTO;
-import com.example.aluno_turma_api.Model.AlunoModel;
-import com.example.aluno_turma_api.Model.TurmaModel;
-import com.example.aluno_turma_api.Repository.AlunoRepository;
-import com.example.aluno_turma_api.Repository.TurmaRepository;
 import com.example.aluno_turma_api.Service.TurmaService;
-import com.fasterxml.jackson.databind.annotation.JsonValueInstantiator;
 import jakarta.validation.Valid;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -20,18 +14,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
-
 @RestController
 @RequestMapping("/turma")
 public class TurmaController {
-
-    @Autowired
-    TurmaRepository turmaRepository;
-
-    @Autowired
-    AlunoRepository alunoRepository;
 
     @Autowired
     TurmaService turmaService;
@@ -45,9 +30,9 @@ public class TurmaController {
     @PostMapping
     @Transactional
     public ResponseEntity<TurmaDTO> cadastrarTurma(@RequestBody @Valid TurmaDTO turmaDTO) {
-        if(turmaService.turmaExistente(turmaDTO)){
+        if (turmaService.turmaExistente(turmaDTO)) {
             return ResponseEntity.badRequest().build();
-        }else{
+        } else {
             return ResponseEntity.status(HttpStatus.CREATED).body(turmaService.insertTurma(turmaDTO));
         }
     }
@@ -57,9 +42,9 @@ public class TurmaController {
     public ResponseEntity addAlunoNaTurma(@RequestBody @Valid ManipularAlunoNaTurmaDTO dados) {
         Boolean alunoEncontrado = turmaService.verificarAlunoNaTurma(dados.idTurma(), dados.idAluno());
         Boolean alunoAtivo = turmaService.verificarAlunoAtivo(dados.idAluno());
-        if(alunoEncontrado || !alunoAtivo ){
+        if (alunoEncontrado || !alunoAtivo) {
             return ResponseEntity.badRequest().build();
-        }else{
+        } else {
             turmaService.addAlunoNaTurma(dados.idTurma(), dados.idAluno());
             return ResponseEntity.ok().build();
         }
@@ -67,12 +52,12 @@ public class TurmaController {
 
     @PutMapping("/removerAluno")
     @Transactional
-    public ResponseEntity removerAlunoDaTurma(@RequestBody @Valid ManipularAlunoNaTurmaDTO dados){
-        Boolean alunoEncontrado = turmaService.verificarAlunoNaTurma(dados.idTurma(),dados.idAluno());
-        if(alunoEncontrado){
+    public ResponseEntity removerAlunoDaTurma(@RequestBody @Valid ManipularAlunoNaTurmaDTO dados) {
+        Boolean alunoEncontrado = turmaService.verificarAlunoNaTurma(dados.idTurma(), dados.idAluno());
+        if (alunoEncontrado) {
             turmaService.removerAluno(dados.idTurma(), dados.idAluno());
             return ResponseEntity.status(HttpStatus.OK).build();
-        }else {
+        } else {
             return ResponseEntity.notFound().build();
         }
     }
@@ -80,7 +65,7 @@ public class TurmaController {
 
     @DeleteMapping("/{id}")
     @Transactional
-    public ResponseEntity deletarTurma(@PathVariable Long id){
+    public ResponseEntity deletarTurma(@PathVariable Long id) {
         turmaService.removerTurma(id);
         return ResponseEntity.noContent().build();
     }

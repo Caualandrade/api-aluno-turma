@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Entity(name = "turma")
-@Table(name="turmas")
+@Table(name = "turmas")
 @AllArgsConstructor
 @NoArgsConstructor
 public class TurmaModel {
@@ -19,11 +19,13 @@ public class TurmaModel {
     @OneToMany
     private List<AlunoModel> alunos;
 
-    public void addAluno(AlunoModel alunoModel){
+    public void addAluno(AlunoModel alunoModel) {
         this.alunos.add(alunoModel);
     }
 
-    public void removerAluno(AlunoModel alunoModel){this.alunos.remove(alunoModel);}
+    public void removerAluno(AlunoModel alunoModel) {
+        this.alunos.remove(alunoModel);
+    }
 
 
     public Long getId() {
