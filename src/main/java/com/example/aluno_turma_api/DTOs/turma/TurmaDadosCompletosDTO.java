@@ -7,7 +7,7 @@ import java.util.List;
 
 public record TurmaDadosCompletosDTO(Long id, String nome, List<AlunoModel> alunoModels) {
 
-    public TurmaDadosCompletosDTO(TurmaModel turmaModel){
-        this(turmaModel.getId(),turmaModel.getNome(),turmaModel.getAlunos());
+    public TurmaDadosCompletosDTO(TurmaModel turmaModel) {
+        this(turmaModel.getId(), turmaModel.getNome(), turmaModel.getAlunos());
     }
 }

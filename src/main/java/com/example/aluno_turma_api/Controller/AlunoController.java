@@ -22,9 +22,6 @@ import org.springframework.web.bind.annotation.*;
 public class AlunoController {
 
     @Autowired
-    AlunoRepository alunoRepository;
-
-    @Autowired
     AlunoService alunoService;
 
     @GetMapping

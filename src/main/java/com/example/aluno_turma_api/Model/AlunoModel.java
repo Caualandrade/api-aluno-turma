@@ -3,7 +3,7 @@ package com.example.aluno_turma_api.Model;
 import com.example.aluno_turma_api.DTOs.aluno.AlunoAtualizarDTO;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import lombok.*;
+import lombok.EqualsAndHashCode;
 
 @Entity(name = "aluno")
 @Table(name = "Alunos")
@@ -37,13 +37,14 @@ public class AlunoModel {
 
     }
 
-    public void excluir(){
+    public void excluir() {
         this.ativo = false;
     }
 
-    public void atualizarAluno(AlunoAtualizarDTO dados){
+    public void atualizarAluno(AlunoAtualizarDTO dados) {
         this.email = dados.email();
     }
+
     public Long getId() {
         return id;
     }
