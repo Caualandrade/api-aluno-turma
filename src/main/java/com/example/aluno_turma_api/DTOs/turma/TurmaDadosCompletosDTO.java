@@ -5,9 +5,9 @@ import com.example.aluno_turma_api.Model.TurmaModel;
 
 import java.util.List;
 
-public record TurmaDadosCompletosDTO(Long id, String nome, List<AlunoModel> alunoModels) {
+public record TurmaDadosCompletosDTO(Long id, String nome, List<AlunoModel> alunoModels, Integer vagas, Integer vagasRestantes) {
 
     public TurmaDadosCompletosDTO(TurmaModel turmaModel) {
-        this(turmaModel.getId(), turmaModel.getNome(), turmaModel.getAlunos());
+        this(turmaModel.getId(), turmaModel.getNome(), turmaModel.getAlunos(), turmaModel.getVagas(),turmaModel.getVagasRestantes());
     }
 }

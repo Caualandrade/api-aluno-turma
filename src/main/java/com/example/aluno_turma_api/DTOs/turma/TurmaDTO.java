@@ -5,5 +5,5 @@ import jakarta.validation.constraints.NotBlank;
 
 import java.util.List;
 
-public record TurmaDTO(@NotBlank String nome, List<AlunoModel> alunos) {
+public record TurmaDTO(@NotBlank String nome, List<AlunoModel> alunos, Integer vagas) {
 }

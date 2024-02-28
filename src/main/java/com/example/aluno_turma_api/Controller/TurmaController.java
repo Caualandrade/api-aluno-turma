@@ -42,7 +42,8 @@ public class TurmaController {
     public ResponseEntity addAlunoNaTurma(@RequestBody @Valid ManipularAlunoNaTurmaDTO dados) {
         Boolean alunoEncontrado = turmaService.verificarAlunoNaTurma(dados.idTurma(), dados.idAluno());
         Boolean alunoAtivo = turmaService.verificarAlunoAtivo(dados.idAluno());
-        if (alunoEncontrado || !alunoAtivo) {
+        Boolean quantidadeExcedida = turmaService.quantidadeExcedida(dados.idTurma());
+        if (alunoEncontrado || !alunoAtivo || quantidadeExcedida) {
             return ResponseEntity.badRequest().build();
         } else {
             turmaService.addAlunoNaTurma(dados.idTurma(), dados.idAluno());
