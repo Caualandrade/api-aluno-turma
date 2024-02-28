@@ -69,5 +69,13 @@ public class TurmaService {
         return turmaEncontrada;
     }
 
+    public Boolean quantidadeExcedida(Long idTurma){
+        var turma = turmaRepository.getReferenceById(idTurma);
+        if(turma.getVagasRestantes()<=0){
+            return true;
+        }
+        return false;
+    }
+
 
 }
